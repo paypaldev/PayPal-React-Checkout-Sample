@@ -1,70 +1,147 @@
-# Getting Started with Create React App
+# How To Add Checkout Payment In React with PayPal
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This sample app shows how to add checkout payments to your React application using the [react-paypal-js npm](https://www.npmjs.com/package/@paypal/react-paypal-js) package.
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+To install the react-paypal-js npm package run the following command inside of your project.
 
-### `npm start`
+`npm install @paypal/react-paypal-js`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+If you have any issues with this npm package, please report them in its [GitHub repo](https://github.com/paypal/react-paypal-js/issues).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Usage
+The PayPal NPM package consists of 2 main parts:
 
-### `npm test`
+- The Context Provider, this `<PayPalScriptProvider/>` is responsible for the PayPal JS SDK script. This provider uses the native [React Context API](https://reactjs.org/docs/context.html) for managing state and communicating with child components. It also supports reloading the script when parameters change.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- The PayPal SDK Components, components like `<PayPalButtons/>` are used to render the UI for PayPal products served by the JS SDK.
 
-### `npm run build`
+### App.js
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This component is responsible for loading the PayPal script and rendering the `<Checkout/>` component.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+At the top of the `App.js` file we added `PayPalScriptProvider` to start using it in our component:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```javascript
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+```
 
-### `npm run eject`
+In this file we also added the `initialOptions` object, these options can be changed with other configuration parameters. To learn more about the other configuration options look at the [PayPal SDK docs](https://developer.paypal.com/dashboard/).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```javascript
+const initialOptions = {
+  "client-id": "YOUR-CLIENT-ID-HERE",
+  currency: "USD",
+  intent: "capture",
+};
+```
+You can find your client ID and secret by logging in to the [PayPal Developer Dashboard](https://www.paypal.com/signin?returnUri=https%3A%2F%2Fdeveloper.paypal.com%2Fdeveloper%2Fapplications&_ga=1.9387580.841672670.1664266268.)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Finally, inside the `App.js`, we added the `<PayPalScriptProvider/>`. Notice we have inside the provider the `<Checkout/>` component where we have the PayPal components.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```jsx
+<PayPalScriptProvider options={initialOptions}>
+        <Checkout/>
+</PayPalScriptProvider>
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+See the `App.js` file to view the final code.
 
-## Learn More
+### Checkout.js
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This file is responsible for loading the PayPal components such as the PayPal button. 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+At the top of the `Checkout.js` file, we added the following line to include the `PayPalButtons` and the `usePayPalScriptReducer`.
 
-### Code Splitting
+```javascript
+import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The `usePayPalScriptReducer()` will help us show a spinner when the PayPal Script is loading and can be used to change the values of the options of the PayPal SDK and at the same time reload the SDK with the updated parameters.
 
-### Analyzing the Bundle Size
+In this same file, we added the following line of code to start using the `usePayPalScriptReducer()`. 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```javascript
+const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
+```
 
-### Making a Progressive Web App
+The PayPal Script has several loading states and with the `usePayPalScriptReducer()` we can track it in an easier way. This state can be used to show a loading spinner while the script loads or an error message if it fails to load.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Loading states:
+- isInitial - not started (only used when passing deferLoading={true})
+- isPending - loading (default)
+- isResolved - successfully loaded
+- isRejected - failed to load
 
-### Advanced Configuration
+In this sample app, we used the `isPending` to render the rest of the UI including the `PayPalButtons`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```javascript
+{isPending ? <p>LOADING...</p> : (
+                <>
+                    <select value={currency} onChange={onCurrencyChange}>
+                            <option value="USD">💵 USD</option>
+                            <option value="EUR">💶 Euro</option>
+                    </select>
+                    <PayPalButtons 
+                        style={{ layout: "vertical" }}
+                        createOrder={(data, actions) => {
+                            return actions.order.create({
+                                purchase_units: [
+                                    {
+                                        amount: {
+                                            value: "8.99",
+                                        },
+                                    },
+                                ],
+                            });
+                        }}
+                        onApprove={(data, actions) => {
+                            return actions.order.capture().then((details) => {
+                                const name = details.payer.name.given_name;
+                                alert(`Transaction completed by ${name}`);
+                            });
+                        }}
+                    />
+                </>
+            )
+    }
+```
 
-### Deployment
+In this code, you will see the `<PayPalButtons/>` were added as well. In this example, we are passing 3 attributes to our PayPal button component.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- [style](https://developer.paypal.com/sdk/js/reference/#style): This attribute allows you to style the PayPal button E.g color, shape, layout, and more.
+- [createOrder](https://developer.paypal.com/docs/api/orders/v2/#orders-create-request-body): This attribute allows you to create the request of your order with the following properties: item_total, purchase_units, and more.
+- [onApprove](https://developer.paypal.com/docs/api/orders/v2/#orders_get): This attribute allows do something with the order details after it has been created.
 
-### `npm run build` fails to minify
+See the `Checkout.js` file to view the final code.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Run Sample App
+
+In the `App.js` file, replace the text value of the `client-id` property of the `initialOptions` object with your own client ID.
+
+You can find your client ID and secret by logging in to the [Developer Dashboard](https://www.paypal.com/signin?returnUri=https%3A%2F%2Fdeveloper.paypal.com%2Fdeveloper%2Fapplications&_ga=1.9387580.841672670.1664266268.)
+
+Inside your project run in the terminal `npm start` to run the ReactJS application.
+
+Open [http://localhost:3000](http://localhost:3000) to view the app in your browser.
+
+### Sample Card
+Card Type: `Visa`
+
+Card Number: `4032039534213337`
+
+Expiration Date: `03/2026`
+
+CVV: `952`
+
+## PayPal Developer Community
+
+The PayPal Developer is a community of developers who work with PayPal technologies. The community members have the opportunity to contribute to open source, expand their network and knowledge across different PayPal technologies and improve PayPal products.
+
+* Website: [developer.paypal.com](https://developer.paypal.com)
+* Twitter: [@paypaldev](https://twitter.com/paypaldev)
+* Github:  [@paypal](https://github.com/paypal)
+
+
+
