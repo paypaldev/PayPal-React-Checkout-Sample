@@ -27,7 +27,7 @@ At the top of the `App.js` file we added `PayPalScriptProvider` to start using i
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 ```
 
-In this file we also added the `initialOptions` object, these options can be changed with other configuration parameters. To learn more about the other configuration options look at the [PayPal SDK docs](https://developer.paypal.com/dashboard/).
+In this file we also added the `initialOptions` object, these options can be changed with other configuration parameters. To learn more about the other configuration options look at the [PayPal SDK docs](https://developer.paypal.com/docs/business/javascript-sdk/javascript-sdk-configuration/).
 
 ```javascript
 const initialOptions = {
@@ -108,11 +108,11 @@ In this sample app, we used the `isPending` to render the rest of the UI includi
     }
 ```
 
-In this code, you will see the `<PayPalButtons/>` were added as well. In this example, we are passing 3 attributes to our PayPal button component.
+In this code, you will see the `<PayPalButtons/>` were added as well. In this example, we are passing 3 props to our PayPal button component.
 
-- [style](https://developer.paypal.com/sdk/js/reference/#style): This attribute allows you to style the PayPal button E.g color, shape, layout, and more.
-- [createOrder](https://developer.paypal.com/docs/api/orders/v2/#orders-create-request-body): This attribute allows you to create the request of your order with the following properties: item_total, purchase_units, and more.
-- [onApprove](https://developer.paypal.com/docs/api/orders/v2/#orders_get): This attribute allows do something with the order details after it has been created.
+- [style](https://developer.paypal.com/sdk/js/reference/#style): This prop allows you to style the PayPal button E.g color, shape, layout, and more.
+- [createOrder](https://developer.paypal.com/docs/api/orders/v2/#orders-create-request-body): This prop allows you to create the request of your order with the following properties: item_total, purchase_units, and more.
+- [onApprove](https://developer.paypal.com/docs/api/orders/v2/#orders_get): This prop allows doing something with the order details after it has been created.
 
 See the `Checkout.js` file to view the final code.
 
@@ -137,7 +137,7 @@ CVV: `952`
 
 ## PayPal Developer Community
 
-The PayPal Developer is a community of developers who work with PayPal technologies. The community members have the opportunity to contribute to open source, expand their network and knowledge across different PayPal technologies and improve PayPal products.
+The PayPal Developer is a community of developers who work with PayPal  and products. The community members can contribute to open source, expand their network and knowledge across different PayPal technologies, and improve PayPal products and the developer experience.
 
 * Website: [developer.paypal.com](https://developer.paypal.com)
 * Twitter: [@paypaldev](https://twitter.com/paypaldev)
