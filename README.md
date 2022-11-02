@@ -143,7 +143,7 @@ CVV: `952`
 
 ## PayPal Developer Community
 
-The PayPal Developer is a community of developers who work with PayPal  and products. The community members can contribute to open source, expand their network and knowledge across different PayPal technologies, and improve PayPal products and the developer experience.
+The PayPal Developer community helps you build your career, while also improving PayPal products and the developer experience. You’ll be able to contribute code and documentation, meet new people and learn from the open source community.
 
 * Website: [developer.paypal.com](https://developer.paypal.com)
 * Twitter: [@paypaldev](https://twitter.com/paypaldev)
