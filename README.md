@@ -6,6 +6,8 @@
 
 This sample app shows how to add checkout payments to your React application using the [react-paypal-js npm](https://www.npmjs.com/package/@paypal/react-paypal-js) package.
 
+For details instructions read our how-to guide [How to add PayPal checkout payments to your React app.](https://dev.to/paypaldeveloper/how-to-add-paypal-checkout-payments-to-your-react-app-53aa)
+
 ## Installation
 
 To install the react-paypal-js npm package run the following command inside of your project.
