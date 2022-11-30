@@ -1,8 +1,22 @@
 ![PayPal Developer Cover](https://github.com/paypaldev/.github/blob/main/pp-cover.png)
+<div align="center">
   <a href="https://twitter.com/paypaldev" target="_blank">
     <img alt="Twitter: PayPal Developer" src="https://img.shields.io/twitter/follow/paypaldev?style=social" />
   </a>
-# How To Add Checkout Payment In React with PayPal
+  <br />
+  <a href="https://twitter.com/paypaldev" target="_blank">Twitter</a>
+    <span>&nbsp;&nbsp;-&nbsp;&nbsp;</span>
+  <a href="https://www.paypal.com/us/home" target="_blank">PayPal</a>
+    <span>&nbsp;&nbsp;-&nbsp;&nbsp;</span>
+  <a href="https://developer.paypal.com/home" target="_blank">Docs</a>
+    <span>&nbsp;&nbsp;-&nbsp;&nbsp;</span>
+  <a href="https://github.com/paypaldev" target="_blank">Code Samples</a>
+    <span>&nbsp;&nbsp;-&nbsp;&nbsp;</span>
+  <a href="https://dev.to/paypaldeveloper" target="_blank">Blog</a>
+  <br />
+  <hr />
+</div>
+# PayPal React NPM Sample App
 
 This sample app shows how to add checkout payments to your React application using the [react-paypal-js npm](https://www.npmjs.com/package/@paypal/react-paypal-js) package.
 
