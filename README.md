@@ -17,7 +17,7 @@
   <hr />
 </div>
 
-# PayPal React NPM Sample App
+# PayPal React Checkout Sample App
 
 This sample app shows how to add checkout payments to your React application using the [react-paypal-js npm](https://www.npmjs.com/package/@paypal/react-paypal-js) package.
 
