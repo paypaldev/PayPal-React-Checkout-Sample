@@ -1,0 +1,1 @@
+malicious React script here 
